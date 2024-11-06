@@ -1,5 +1,3 @@
--- BXHub.lua
-
 local BXHub = {}
 
 -- Função de inicialização para criar a HUD
