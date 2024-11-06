@@ -1,164 +1,327 @@
--- BXHub.lua
+local Library = {}
 
-local BXHub = {}
-
--- Função para criar a janela principal da HUD
-function BXHub:CreateWindow(title)
+function Library:CreateWindow(title)
     title = title or "HUD"
 
-    -- Criação do Frame principal
-    local mainFrame = Instance.new("Frame")
-    mainFrame.Name = title
-    mainFrame.Size = UDim2.new(0, 225, 0, 250)
-    mainFrame.Position = UDim2.new(0.5, -112, 0.5, -125)
-    mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    mainFrame.BorderSizePixel = 0
-    mainFrame.BackgroundTransparency = 0.5
-    mainFrame.Active = true
-    mainFrame.Draggable = true -- Permite arrastar a HUD
+    local Window = {}
+    local GUI = Instance.new("ScreenGui")
+    local MainFrame = Instance.new("Frame")
+    local TitleLabel = Instance.new("TextLabel")
+    local TabBar = Instance.new("Frame")
+    local TabContainer = Instance.new("Frame")
 
-    -- Título da HUD
-    local titleLabel = Instance.new("TextLabel")
-    titleLabel.Size = UDim2.new(1, 0, 0, 25)
-    titleLabel.Text = title
-    titleLabel.Font = Enum.Font.GothamBold -- Fonte em negrito válida
-    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    titleLabel.BackgroundTransparency = 1
-    titleLabel.TextScaled = true
-    titleLabel.Parent = mainFrame
+    -- Configuração da ScreenGui
+    GUI.Name = "CustomHUD"
+    GUI.Parent = game.CoreGui
+    GUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    GUI.ResetOnSpawn = false
 
-    return mainFrame -- Retorna o frame principal criado
-end
+    -- Main Frame centralizado com animação de início
+    MainFrame.Name = "MainFrame"
+    MainFrame.Parent = GUI
+    MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    MainFrame.BorderSizePixel = 0
+    MainFrame.Position = UDim2.fromScale(0.5, 0.5)
+    MainFrame.Size = UDim2.new(0, 310, 0, 0)
+    MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+    MainFrame.BackgroundTransparency = 0
+    MainFrame.ClipsDescendants = true
+    MainFrame:TweenSize(UDim2.new(0, 310, 0, 400), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
 
--- Função de inicialização para adicionar a HUD ao PlayerGui
-function BXHub:initialize(player)
-    local playerGui = player:WaitForChild("PlayerGui")
-    
-    -- Criar e configurar a janela principal com o título
-    local mainFrame = self:CreateWindow("BX Hub")
-    mainFrame.Parent = playerGui -- Adiciona a HUD ao PlayerGui do jogador
+    -- Cantos arredondados para o MainFrame
+    local MainFrameCorner = Instance.new("UICorner")
+    MainFrameCorner.CornerRadius = UDim.new(0, 10)
+    MainFrameCorner.Parent = MainFrame
 
-    -- Botão de minimizar
-    local minimizeButton = Instance.new("TextButton")
-    minimizeButton.Size = UDim2.new(0, 50, 0, 50)
-    minimizeButton.Position = UDim2.new(1, -50, 0, 0)
-    minimizeButton.Text = "BX"
-    minimizeButton.Font = Enum.Font.GothamBold
-    minimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    minimizeButton.BackgroundTransparency = 0.5
-    minimizeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    minimizeButton.Parent = mainFrame
+    -- Título centralizado
+    TitleLabel.Name = "TitleLabel"
+    TitleLabel.Parent = MainFrame
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Size = UDim2.new(1, 0, 0, 30)
+    TitleLabel.Font = Enum.Font.GothamBold
+    TitleLabel.Text = title
+    TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TitleLabel.TextSize = 16
+    TitleLabel.TextXAlignment = Enum.TextXAlignment.Center
 
+    -- Botão de minimizar ajustado para a esquerda
+    local MinimizeButton = Instance.new("TextButton")
+    MinimizeButton.Name = "MinimizeButton"
+    MinimizeButton.Parent = MainFrame
+    MinimizeButton.Text = "-"
+    MinimizeButton.Font = Enum.Font.GothamBold
+    MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    MinimizeButton.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    MinimizeButton.Size = UDim2.new(0, 30, 0, 30)
+    MinimizeButton.Position = UDim2.new(0.87, 0, 0, 0)
+    MinimizeButton.BorderSizePixel = 0
+
+    local MinimizeCorner = Instance.new("UICorner")
+    MinimizeCorner.CornerRadius = UDim.new(0, 5)
+    MinimizeCorner.Parent = MinimizeButton
+
+    -- Minimização
     local isMinimized = false
+    local MinimizeBox = Instance.new("TextButton")
 
-    minimizeButton.MouseButton1Click:Connect(function()
+    MinimizeBox.Name = "MinimizeBox"
+    MinimizeBox.Parent = GUI
+    MinimizeBox.Size = UDim2.new(0, 55, 0, 55)
+    MinimizeBox.Position = MainFrame.Position
+    MinimizeBox.Text = "BH"
+    MinimizeBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    MinimizeBox.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    MinimizeBox.BorderSizePixel = 0
+    MinimizeBox.Visible = false
+    MinimizeBox.Font = Enum.Font.GothamBold
+    MinimizeBox.TextSize = 14
+
+    local MinimizeBoxCorner = Instance.new("UICorner")
+    MinimizeBoxCorner.CornerRadius = UDim.new(0, 5)
+    MinimizeBoxCorner.Parent = MinimizeBox
+
+    MinimizeButton.MouseButton1Click:Connect(function()
         isMinimized = not isMinimized
-        mainFrame.Visible = not isMinimized
-        minimizeButton.Text = isMinimized and "BX" or "BX Hub"
+        MainFrame.Visible = not isMinimized
+        MinimizeBox.Visible = isMinimized
     end)
 
-    -- Tabs e sistema de animação para a seleção ativa
-    local tabs = {
-        { Name = "Main", Buttons = {
-            { Text = "Baby Farm" },
-            { Text = "Pet Farm" },
-            { Text = "Farm All Pets" },
-            { Text = "Farm AgeUp" },
-            { Text = "Save Config" },
-            { Text = "Unload" }
-        }},
-        { Name = "Shop", Buttons = {
-            { Text = "Quantity Eggs" },
-            { Text = "Select Egg" },
-            { Text = "Buy Selected Egg" }
-        }}
-    }
+    MinimizeBox.MouseButton1Click:Connect(function()
+        isMinimized = false
+        MainFrame.Visible = true
+        MinimizeBox.Visible = false
+    end)
 
-    for _, tab in ipairs(tabs) do
-        local tabButton = Instance.new("TextButton")
-        tabButton.Text = tab.Name
-        tabButton.Size = UDim2.new(0.5, 0, 0, 25)
-        tabButton.Position = UDim2.new(0.5 * (_ - 1), 0, 0, 25)
-        tabButton.Font = Enum.Font.GothamBold
-        tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        tabButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        tabButton.BackgroundTransparency = 0.5
-        tabButton.Parent = mainFrame
+    -- Arrastar para dispositivos móveis e desktop
+    local dragging = false
+    local dragStart
+    local startPos
 
-        tabButton.MouseButton1Click:Connect(function()
-            for _, btn in ipairs(mainFrame:GetChildren()) do
-                if btn:IsA("TextButton") and btn.Name == tab.Name then
-                    btn.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Verde para o tab ativo
-                else
-                    btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50) -- Cinza para tabs inativos
+    MainFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = MainFrame.Position
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    MainFrame.InputChanged:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            local delta = input.Position - dragStart
+            MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+            MinimizeBox.Position = MainFrame.Position
+        end
+    end)
+
+    -- Tab Bar
+    TabBar.Name = "TabBar"
+    TabBar.Parent = MainFrame
+    TabBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    TabBar.BorderSizePixel = 0
+    TabBar.Position = UDim2.new(0, 0, 0, 30)
+    TabBar.Size = UDim2.new(1, 0, 0, 25)
+
+    local TabBarCorner = Instance.new("UICorner")
+    TabBarCorner.CornerRadius = UDim.new(0, 10)
+    TabBarCorner.Parent = TabBar
+
+    -- Tab Container
+    TabContainer.Name = "TabContainer"
+    TabContainer.Parent = MainFrame
+    TabContainer.BackgroundTransparency = 1
+    TabContainer.Position = UDim2.new(0, 0, 0, 65)
+    TabContainer.Size = UDim2.new(1, 0, 1, -65)
+
+    -- Layout for Tabs
+    local TabListLayout = Instance.new("UIListLayout")
+    TabListLayout.Parent = TabBar
+    TabListLayout.FillDirection = Enum.FillDirection.Horizontal
+    TabListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    TabListLayout.Padding = UDim.new(0, 5)
+
+    function Window:Unload()
+        GUI:Destroy()
+    end
+
+    function Window:CreateTab(name)
+        local Tab = {}
+        name = name or "Tab"
+
+        local TabButton = Instance.new("TextButton")
+        TabButton.Name = name .. "Button"
+        TabButton.Parent = TabBar
+        TabButton.Text = name
+        TabButton.Font = Enum.Font.Gotham
+        TabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TabButton.TextSize = 14
+        TabButton.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+        TabButton.Size = UDim2.new(0, 100, 1, 0)
+        TabButton.BorderSizePixel = 0
+        TabButton.AutoButtonColor = false
+
+        local TabButtonCorner = Instance.new("UICorner")
+        TabButtonCorner.CornerRadius = UDim.new(0, 5)
+        TabButtonCorner.Parent = TabButton
+
+        local TabFrame = Instance.new("Frame")
+        TabFrame.Name = name .. "Content"
+        TabFrame.Parent = TabContainer
+        TabFrame.Size = UDim2.new(1, 0, 1, 0)
+        TabFrame.BackgroundTransparency = 1
+        TabFrame.Visible = false
+
+        local function updateTabSelection()
+            for _, button in pairs(TabBar:GetChildren()) do
+                if button:IsA("TextButton") then
+                    button.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
                 end
             end
-        end)
-    end
+            TabButton.BackgroundColor3 = Color3.fromRGB(75, 150, 255)
+        end
 
-    -- Funções auxiliares para criar botões e checkboxes
-    local function createButton(parent, text, position)
-        local button = Instance.new("TextButton")
-        button.Text = text
-        button.Size = UDim2.new(0, 100, 0, 25)
-        button.Position = position
-        button.Font = Enum.Font.GothamBold
-        button.TextColor3 = Color3.fromRGB(255, 255, 255)
-        button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        button.BackgroundTransparency = 0.5
-        button.Parent = parent
-        return button
-    end
-
-    local function createCheckbox(parent, position)
-        local checkbox = Instance.new("Frame")
-        checkbox.Size = UDim2.new(0, 20, 0, 20)
-        checkbox.Position = position
-        checkbox.BackgroundColor3 = Color3.fromRGB(128, 128, 128) -- Cinza inicial
-        checkbox.Parent = parent
-        checkbox.Name = "Checkbox"
-
-        checkbox.MouseButton1Click:Connect(function()
-            if checkbox.BackgroundColor3 == Color3.fromRGB(0, 255, 0) then
-                checkbox.BackgroundColor3 = Color3.fromRGB(128, 128, 128) -- Desativa
-            else
-                checkbox.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Ativa
+        TabButton.MouseButton1Click:Connect(function()
+            for _, tab in pairs(TabContainer:GetChildren()) do
+                tab.Visible = false
             end
+            TabFrame.Visible = true
+            updateTabSelection()
         end)
-        
-        return checkbox
+
+        if #TabContainer:GetChildren() == 1 then
+            TabFrame.Visible = true
+            updateTabSelection()
+        end
+
+        function Tab:CreateGroupbox()
+            local Groupbox = {}
+
+            local ScrollingFrame = Instance.new("ScrollingFrame")
+            ScrollingFrame.Parent = TabFrame
+            ScrollingFrame.Position = UDim2.new(0, 0, 0, 0)
+            ScrollingFrame.Size = UDim2.new(1, 0, 1, 0)
+            ScrollingFrame.BackgroundTransparency = 1
+            ScrollingFrame.CanvasSize = UDim2.new(0, 0, 2, 0)
+            ScrollingFrame.ScrollBarThickness = 10
+
+            local UIListLayout = Instance.new("UIListLayout")
+            UIListLayout.Parent = ScrollingFrame
+            UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+            UIListLayout.Padding = UDim.new(0, 5)
+
+            function Groupbox:CreateButton(text, callback)
+                local Button = Instance.new("TextButton")
+                Button.Parent = ScrollingFrame
+                Button.Text = text
+                Button.Size = UDim2.new(1, -10, 0, 25)
+                Button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+                Button.Font = Enum.Font.Gotham
+                Button.TextSize = 14
+                Button.BorderSizePixel = 0
+                Button.MouseButton1Click:Connect(callback)
+
+                local ButtonCorner = Instance.new("UICorner")
+                ButtonCorner.CornerRadius = UDim.new(0, 5)
+                ButtonCorner.Parent = Button
+            end
+
+            function Groupbox:CreateToggle(text, callback)
+                local Toggle = Instance.new("TextButton")
+                Toggle.Parent = ScrollingFrame
+                Toggle.Text = text
+                Toggle.Size = UDim2.new(1, -10, 0, 25)
+                Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                Toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                Toggle.Font = Enum.Font.Gotham
+                Toggle.TextSize = 14
+                Toggle.BorderSizePixel = 0
+                local isToggled = false
+
+                local ToggleCorner = Instance.new("UICorner")
+                ToggleCorner.CornerRadius = UDim.new(0, 5)
+                ToggleCorner.Parent = Toggle
+
+                Toggle.MouseButton1Click:Connect(function()
+                    isToggled = not isToggled
+                    callback(isToggled)
+                    Toggle.BackgroundColor3 = isToggled and Color3.fromRGB(50, 50, 50) or Color3.fromRGB(30, 30, 30)
+                end)
+            end
+
+            function Groupbox:CreateToggleButton(text, callback)
+                local ToggleButtonFrame = Instance.new("Frame")
+                ToggleButtonFrame.Parent = ScrollingFrame
+                ToggleButtonFrame.Size = UDim2.new(1, -10, 0, 25)
+                ToggleButtonFrame.BackgroundTransparency = 1
+
+                local ToggleButtonLabel = Instance.new("TextLabel")
+                ToggleButtonLabel.Parent = ToggleButtonFrame
+                ToggleButtonLabel.Text = text
+                ToggleButtonLabel.Size = UDim2.new(0.8, 0, 1, 0)
+                ToggleButtonLabel.BackgroundTransparency = 1
+                ToggleButtonLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                ToggleButtonLabel.Font = Enum.Font.Gotham
+                ToggleButtonLabel.TextSize = 14
+                ToggleButtonLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+                local Toggle = Instance.new("TextButton")
+                Toggle.Parent = ToggleButtonFrame
+                Toggle.Size = UDim2.new(0.15, 0, 0.8, 0)
+                Toggle.Position = UDim2.new(0.85, 0, 0.1, 0)
+                Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                Toggle.Text = ""
+                Toggle.BorderSizePixel = 0
+
+                local ToggleCorner = Instance.new("UICorner")
+                ToggleCorner.CornerRadius = UDim.new(0, 5)
+                ToggleCorner.Parent = Toggle
+
+                local isToggled = false
+                Toggle.MouseButton1Click:Connect(function()
+                    isToggled = not isToggled
+                    callback(isToggled)
+                    Toggle.BackgroundColor3 = isToggled and Color3.fromRGB(50, 150, 50) or Color3.fromRGB(30, 30, 30)
+                end)
+            end
+
+            return Groupbox
+        end
+
+        return Tab
     end
 
-    -- Criação dos botões na tab Main
-    local mainTab = Instance.new("Frame")
-    mainTab.Name = "Main"
-    mainTab.Size = UDim2.new(1, 0, 1, -25)
-    mainTab.Position = UDim2.new(0, 0, 0, 50)
-    mainTab.BackgroundTransparency = 1
-    mainTab.Visible = true
-    mainTab.Parent = mainFrame
+    -- Criando Tabs e Botões
 
-    -- Botões com checkbox
-    local buttons = {
-        {Text = "Baby Farm", Position = UDim2.new(0, 10, 0, 60)},
-        {Text = "Pet Farm", Position = UDim2.new(0, 10, 0, 90)},
-        {Text = "Farm All Pets", Position = UDim2.new(0, 10, 0, 120)},
-        {Text = "Farm AgeUp", Position = UDim2.new(0, 10, 0, 150)}
-    }
-
-    for _, btnInfo in ipairs(buttons) do
-        local button = createButton(mainTab, btnInfo.Text, btnInfo.Position)
-        createCheckbox(button, UDim2.new(1, -30, 0, 0))
-    end
-
-    -- Botões Save Config e Unload
-    local saveButton = createButton(mainTab, "Save Config", UDim2.new(0, 10, 0, 180))
-    local unloadButton = createButton(mainTab, "Unload", UDim2.new(0, 10, 0, 210))
-
-    -- Função para fechar HUD
-    unloadButton.MouseButton1Click:Connect(function()
-        mainFrame:Destroy()
+    -- Tab Auto Farm
+    local AutoFarmTab = Window:CreateTab("Auto Farm")
+    local AutoFarmGroupbox = AutoFarmTab:CreateGroupbox("Auto Farm Options")
+    AutoFarmGroupbox:CreateButton("Farm", function() print("Auto Farming started!") end)
+    AutoFarmGroupbox:CreateToggleButton("Baby Farm", function(isActive)
+        if isActive then
+            print("Baby Farm ativado!")
+        else
+            print("Baby Farm desativado!")
+        end
     end)
+
+    -- Tab Shop
+    local ShopTab = Window:CreateTab("Shop")
+    local ShopGroupbox = ShopTab:CreateGroupbox("Shop Options")
+    ShopGroupbox:CreateButton("Open Shop", function() print("Shop opened!") end)
+    ShopGroupbox:CreateToggle("Enable Item Buy", function(state) print("Item Buy toggled: " .. tostring(state)) end)
+
+    -- Tab Config
+    local ConfigTab = Window:CreateTab("Config")
+    local ConfigGroupbox = ConfigTab:CreateGroupbox("Configuration Options")
+    ConfigGroupbox:CreateButton("Save Config", function() print("Configuration saved!") end)
+    ConfigGroupbox:CreateButton("Unload", function() Window:Unload() end)
+
+    return Window
 end
 
-return BXHub
+return Library
