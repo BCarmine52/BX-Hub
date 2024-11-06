@@ -263,9 +263,10 @@ function Library:CreateWindow(title)
                 ToggleButtonLabel.Parent = ToggleButtonFrame
                 ToggleButtonLabel.Text = text
                 ToggleButtonLabel.Size = UDim2.new(0.8, 0, 1, 0)
+                ToggleButtonLabel.Position = UDim2.new(0.1, 10, 0, 0) -- Move o texto um pouco para a direita
                 ToggleButtonLabel.BackgroundTransparency = 1
                 ToggleButtonLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-                ToggleButtonLabel.Font = Enum.Font.Gotham
+                ToggleButtonLabel.Font = Enum.Font.GothamBold -- Define o texto como negrito
                 ToggleButtonLabel.TextSize = 14
                 ToggleButtonLabel.TextXAlignment = Enum.TextXAlignment.Left
 
