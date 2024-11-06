@@ -272,7 +272,7 @@ function Library:CreateWindow(title)
 
                 local Toggle = Instance.new("TextButton")
                 Toggle.Parent = ToggleButtonFrame
-                Toggle.Size = UDim2.new(0.15, 0, 0.8, 0)
+                Toggle.Size = UDim2.new(0, 19, 0, 19) -- Define o tamanho da caixa de ativação para 19x19 pixels
                 Toggle.Position = UDim2.new(0.85, 0, 0.1, 0)
                 Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
                 Toggle.Text = ""
