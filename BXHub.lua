@@ -1,7 +1,7 @@
-local BXHub = {}
+local Library = {}
 
-function BXHub:CreateWindow(title)
-    title = title or "BX Hub"
+function Library:CreateWindow(title)
+    title = title or "HUD"
 
     local Window = {}
     local GUI = Instance.new("ScreenGui")
@@ -11,7 +11,7 @@ function BXHub:CreateWindow(title)
     local TabContainer = Instance.new("Frame")
 
     -- Configuração da ScreenGui
-    GUI.Name = "BXHubGUI"
+    GUI.Name = "CustomHUD"
     GUI.Parent = game.CoreGui
     GUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     GUI.ResetOnSpawn = false
@@ -22,10 +22,11 @@ function BXHub:CreateWindow(title)
     MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
     MainFrame.BorderSizePixel = 0
     MainFrame.Position = UDim2.fromScale(0.5, 0.5)
-    MainFrame.Size = UDim2.new(0, 225, 0, 250)
+    MainFrame.Size = UDim2.new(0, 310, 0, 0)
     MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
     MainFrame.BackgroundTransparency = 0
     MainFrame.ClipsDescendants = true
+    MainFrame:TweenSize(UDim2.new(0, 310, 0, 400), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.5, true)
 
     -- Cantos arredondados para o MainFrame
     local MainFrameCorner = Instance.new("UICorner")
@@ -43,7 +44,7 @@ function BXHub:CreateWindow(title)
     TitleLabel.TextSize = 16
     TitleLabel.TextXAlignment = Enum.TextXAlignment.Center
 
-    -- Botão de minimizar
+    -- Botão de minimizar ajustado para a esquerda
     local MinimizeButton = Instance.new("TextButton")
     MinimizeButton.Name = "MinimizeButton"
     MinimizeButton.Parent = MainFrame
@@ -67,7 +68,7 @@ function BXHub:CreateWindow(title)
     MinimizeBox.Parent = GUI
     MinimizeBox.Size = UDim2.new(0, 55, 0, 55)
     MinimizeBox.Position = MainFrame.Position
-    MinimizeBox.Text = "BX"
+    MinimizeBox.Text = "BH"
     MinimizeBox.TextColor3 = Color3.fromRGB(255, 255, 255)
     MinimizeBox.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
     MinimizeBox.BorderSizePixel = 0
@@ -91,7 +92,7 @@ function BXHub:CreateWindow(title)
         MinimizeBox.Visible = false
     end)
 
-    -- Arrastar a HUD
+    -- Arrastar para dispositivos móveis e desktop
     local dragging = false
     local dragStart
     local startPos
@@ -136,6 +137,7 @@ function BXHub:CreateWindow(title)
     TabContainer.Position = UDim2.new(0, 0, 0, 65)
     TabContainer.Size = UDim2.new(1, 0, 1, -65)
 
+    -- Layout for Tabs
     local TabListLayout = Instance.new("UIListLayout")
     TabListLayout.Parent = TabBar
     TabListLayout.FillDirection = Enum.FillDirection.Horizontal
@@ -195,50 +197,131 @@ function BXHub:CreateWindow(title)
             updateTabSelection()
         end
 
-        function Tab:CreateButton(text, callback)
-            local Button = Instance.new("TextButton")
-            Button.Parent = TabFrame
-            Button.Text = text
-            Button.Size = UDim2.new(1, -10, 0, 25)
-            Button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-            Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-            Button.Font = Enum.Font.Gotham
-            Button.TextSize = 14
-            Button.BorderSizePixel = 0
-            Button.MouseButton1Click:Connect(callback)
+        function Tab:CreateGroupbox()
+            local Groupbox = {}
 
-            local ButtonCorner = Instance.new("UICorner")
-            ButtonCorner.CornerRadius = UDim.new(0, 5)
-            ButtonCorner.Parent = Button
-        end
+            local ScrollingFrame = Instance.new("ScrollingFrame")
+            ScrollingFrame.Parent = TabFrame
+            ScrollingFrame.Position = UDim2.new(0, 0, 0, 0)
+            ScrollingFrame.Size = UDim2.new(1, 0, 1, 0)
+            ScrollingFrame.BackgroundTransparency = 1
+            ScrollingFrame.CanvasSize = UDim2.new(0, 0, 2, 0)
+            ScrollingFrame.ScrollBarThickness = 10
 
-        function Tab:CreateToggle(text, callback)
-            local Toggle = Instance.new("TextButton")
-            Toggle.Parent = TabFrame
-            Toggle.Text = text
-            Toggle.Size = UDim2.new(1, -10, 0, 25)
-            Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-            Toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-            Toggle.Font = Enum.Font.Gotham
-            Toggle.TextSize = 14
-            Toggle.BorderSizePixel = 0
-            local isToggled = false
+            local UIListLayout = Instance.new("UIListLayout")
+            UIListLayout.Parent = ScrollingFrame
+            UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+            UIListLayout.Padding = UDim.new(0, 5)
 
-            local ToggleCorner = Instance.new("UICorner")
-            ToggleCorner.CornerRadius = UDim.new(0, 5)
-            ToggleCorner.Parent = Toggle
+            function Groupbox:CreateButton(text, callback)
+                local Button = Instance.new("TextButton")
+                Button.Parent = ScrollingFrame
+                Button.Text = text
+                Button.Size = UDim2.new(1, -10, 0, 25)
+                Button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+                Button.Font = Enum.Font.Gotham
+                Button.TextSize = 14
+                Button.BorderSizePixel = 0
+                Button.MouseButton1Click:Connect(callback)
 
-            Toggle.MouseButton1Click:Connect(function()
-                isToggled = not isToggled
-                callback(isToggled)
-                Toggle.BackgroundColor3 = isToggled and Color3.fromRGB(50, 50, 50) or Color3.fromRGB(30, 30, 30)
-            end)
+                local ButtonCorner = Instance.new("UICorner")
+                ButtonCorner.CornerRadius = UDim.new(0, 5)
+                ButtonCorner.Parent = Button
+            end
+
+            function Groupbox:CreateToggle(text, callback)
+                local Toggle = Instance.new("TextButton")
+                Toggle.Parent = ScrollingFrame
+                Toggle.Text = text
+                Toggle.Size = UDim2.new(1, -10, 0, 25)
+                Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                Toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                Toggle.Font = Enum.Font.Gotham
+                Toggle.TextSize = 14
+                Toggle.BorderSizePixel = 0
+                local isToggled = false
+
+                local ToggleCorner = Instance.new("UICorner")
+                ToggleCorner.CornerRadius = UDim.new(0, 5)
+                ToggleCorner.Parent = Toggle
+
+                Toggle.MouseButton1Click:Connect(function()
+                    isToggled = not isToggled
+                    callback(isToggled)
+                    Toggle.BackgroundColor3 = isToggled and Color3.fromRGB(50, 50, 50) or Color3.fromRGB(30, 30, 30)
+                end)
+            end
+
+            function Groupbox:CreateToggleButton(text, callback)
+                local ToggleButtonFrame = Instance.new("Frame")
+                ToggleButtonFrame.Parent = ScrollingFrame
+                ToggleButtonFrame.Size = UDim2.new(1, -10, 0, 25)
+                ToggleButtonFrame.BackgroundTransparency = 1
+
+                local ToggleButtonLabel = Instance.new("TextLabel")
+                ToggleButtonLabel.Parent = ToggleButtonFrame
+                ToggleButtonLabel.Text = text
+                ToggleButtonLabel.Size = UDim2.new(0.8, 0, 1, 0)
+                ToggleButtonLabel.BackgroundTransparency = 1
+                ToggleButtonLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                ToggleButtonLabel.Font = Enum.Font.Gotham
+                ToggleButtonLabel.TextSize = 14
+                ToggleButtonLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+                local Toggle = Instance.new("TextButton")
+                Toggle.Parent = ToggleButtonFrame
+                Toggle.Size = UDim2.new(0.15, 0, 0.8, 0)
+                Toggle.Position = UDim2.new(0.85, 0, 0.1, 0)
+                Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                Toggle.Text = ""
+                Toggle.BorderSizePixel = 0
+
+                local ToggleCorner = Instance.new("UICorner")
+                ToggleCorner.CornerRadius = UDim.new(0, 5)
+                ToggleCorner.Parent = Toggle
+
+                local isToggled = false
+                Toggle.MouseButton1Click:Connect(function()
+                    isToggled = not isToggled
+                    callback(isToggled)
+                    Toggle.BackgroundColor3 = isToggled and Color3.fromRGB(50, 150, 50) or Color3.fromRGB(30, 30, 30)
+                end)
+            end
+
+            return Groupbox
         end
 
         return Tab
     end
 
+    -- Criando Tabs e Botões
+
+    -- Tab Auto Farm
+    local AutoFarmTab = Window:CreateTab("Auto Farm")
+    local AutoFarmGroupbox = AutoFarmTab:CreateGroupbox("Auto Farm Options")
+    AutoFarmGroupbox:CreateButton("Farm", function() print("Auto Farming started!") end)
+    AutoFarmGroupbox:CreateToggleButton("Baby Farm", function(isActive)
+        if isActive then
+            print("Baby Farm ativado!")
+        else
+            print("Baby Farm desativado!")
+        end
+    end)
+
+    -- Tab Shop
+    local ShopTab = Window:CreateTab("Shop")
+    local ShopGroupbox = ShopTab:CreateGroupbox("Shop Options")
+    ShopGroupbox:CreateButton("Open Shop", function() print("Shop opened!") end)
+    ShopGroupbox:CreateToggle("Enable Item Buy", function(state) print("Item Buy toggled: " .. tostring(state)) end)
+
+    -- Tab Config
+    local ConfigTab = Window:CreateTab("Config")
+    local ConfigGroupbox = ConfigTab:CreateGroupbox("Configuration Options")
+    ConfigGroupbox:CreateButton("Save Config", function() print("Configuration saved!") end)
+    ConfigGroupbox:CreateButton("Unload", function() Window:Unload() end)
+
     return Window
 end
 
-return BXHub
+return Library
