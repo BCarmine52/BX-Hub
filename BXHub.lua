@@ -1,30 +1,42 @@
+-- BXHub.lua
+
 local BXHub = {}
 
--- Função de inicialização para criar a HUD
-function BXHub:initialize(player)
-    local playerGui = player:WaitForChild("PlayerGui")
-    
-    -- Criando a tela principal da HUD
+-- Função para criar a janela principal da HUD
+function BXHub:CreateWindow(title)
+    title = title or "HUD"
+
+    -- Criação do Frame principal
     local mainFrame = Instance.new("Frame")
-    mainFrame.Name = "BXHub"
+    mainFrame.Name = title
     mainFrame.Size = UDim2.new(0, 225, 0, 250)
     mainFrame.Position = UDim2.new(0.5, -112, 0.5, -125)
     mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     mainFrame.BorderSizePixel = 0
     mainFrame.BackgroundTransparency = 0.5
-    mainFrame.Parent = playerGui
     mainFrame.Active = true
-    mainFrame.Draggable = true -- Para mover a HUD
+    mainFrame.Draggable = true -- Permite arrastar a HUD
 
     -- Título da HUD
-    local title = Instance.new("TextLabel")
-    title.Size = UDim2.new(1, 0, 0, 25)
-    title.Text = "BX Hub"
-    title.Font = Enum.Font.Bold
-    title.TextColor3 = Color3.fromRGB(255, 255, 255)
-    title.BackgroundTransparency = 1
-    title.TextScaled = true
-    title.Parent = mainFrame
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Size = UDim2.new(1, 0, 0, 25)
+    titleLabel.Text = title
+    titleLabel.Font = Enum.Font.Bold
+    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.TextScaled = true
+    titleLabel.Parent = mainFrame
+
+    return mainFrame -- Retorna o frame principal criado
+end
+
+-- Função de inicialização para adicionar a HUD ao PlayerGui
+function BXHub:initialize(player)
+    local playerGui = player:WaitForChild("PlayerGui")
+    
+    -- Criar e configurar a janela principal com o título
+    local mainFrame = self:CreateWindow("BX Hub")
+    mainFrame.Parent = playerGui -- Adiciona a HUD ao PlayerGui do jogador
 
     -- Botão de minimizar
     local minimizeButton = Instance.new("TextButton")
@@ -40,11 +52,12 @@ function BXHub:initialize(player)
     local isMinimized = false
 
     minimizeButton.MouseButton1Click:Connect(function()
-        mainFrame.Visible = not mainFrame.Visible
-        minimizeButton.Text = mainFrame.Visible and "BX" or ""
+        isMinimized = not isMinimized
+        mainFrame.Visible = not isMinimized
+        minimizeButton.Text = isMinimized and "BX" or "BX Hub"
     end)
 
-    -- Tabs
+    -- Tabs e sistema de animação para a seleção ativa
     local tabs = {
         { Name = "Main", Buttons = {
             { Text = "Baby Farm" },
@@ -73,12 +86,11 @@ function BXHub:initialize(player)
         tabButton.Parent = mainFrame
 
         tabButton.MouseButton1Click:Connect(function()
-            -- Lógica para trocar de tab
             for _, btn in ipairs(mainFrame:GetChildren()) do
                 if btn:IsA("TextButton") and btn.Name == tab.Name then
-                    btn.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Verde
+                    btn.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Verde para o tab ativo
                 else
-                    btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50) -- Cinza
+                    btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50) -- Cinza para tabs inativos
                 end
             end
         end)
