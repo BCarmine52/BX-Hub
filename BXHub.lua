@@ -263,19 +263,18 @@ function Library:CreateWindow(title)
                 ToggleButtonLabel.Parent = ToggleButtonFrame
                 ToggleButtonLabel.Text = text
                 ToggleButtonLabel.Size = UDim2.new(0.8, 0, 1, 0)
-                ToggleButtonLabel.Position = UDim2.new(0.5, -50, 0, 0) -- Centraliza o texto horizontalmente
+                ToggleButtonLabel.Position = UDim2.new(0.5, -15, 0, 0) -- Centraliza o texto horizontalmente
                 ToggleButtonLabel.AnchorPoint = Vector2.new(0.5, 0) -- Define o ponto de ancoragem do texto para o centro
                 ToggleButtonLabel.BackgroundTransparency = 1
                 ToggleButtonLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                 ToggleButtonLabel.Font = Enum.Font.GothamBold -- Define o texto como negrito
                 ToggleButtonLabel.TextSize = 14
-                ToggleButtonLabel.TextXAlignment = Enum.TextXAlignment.Left
+                ToggleButtonLabel.TextXAlignment = Enum.TextXAlignment.Center
 
                 local Toggle = Instance.new("TextButton")
                 Toggle.Parent = ToggleButtonFrame
                 Toggle.Size = UDim2.new(0, 19, 0, 19) -- Define o tamanho da caixa de ativação para 19x19 pixels
-                Toggle.Position = UDim2.new(0.5, 70, 0.1, 0) -- Alinha a caixa de ativação ao centro junto com o texto
-                Toggle.AnchorPoint = Vector2.new(0.5, 0) -- Define o ponto de ancoragem para centralização
+                Toggle.Position = UDim2.new(0.85, 0, 0.1, 0) -- Mantém a caixa de ativação à direita
                 Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
                 Toggle.Text = ""
                 Toggle.BorderSizePixel = 0
