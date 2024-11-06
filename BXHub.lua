@@ -303,11 +303,22 @@ function Library:CreateWindow(title)
     local AutoFarmTab = Window:CreateTab("Auto Farm")
     local AutoFarmGroupbox = AutoFarmTab:CreateGroupbox("Auto Farm Options")
     AutoFarmGroupbox:CreateButton("Farm", function() print("Auto Farming started!") end)
+    
+    -- Botão Baby Farm
     AutoFarmGroupbox:CreateToggleButton("Baby Farm", function(isActive)
         if isActive then
             print("Baby Farm ativado!")
         else
             print("Baby Farm desativado!")
+        end
+    end)
+
+    -- Botão Pet Farm abaixo do Baby Farm
+    AutoFarmGroupbox:CreateToggleButton("Pet Farm", function(isActive)
+        if isActive then
+            print("Pet Farm ativado!")
+        else
+            print("Pet Farm desativado!")
         end
     end)
 
