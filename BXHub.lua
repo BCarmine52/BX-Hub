@@ -261,10 +261,9 @@ function Library:CreateWindow(title)
 
     -- Criando Tabs e Botões
 
-    -- Tab Auto Farm (com botões "Save Config" e "Unload")
+    -- Tab Auto Farm (com o botão de "Baby Farm" ativar/desativar e os botões "Save Config" e "Unload")
     local AutoFarmTab = Window:CreateTab("Auto Farm")
     local AutoFarmGroupbox = AutoFarmTab:CreateGroupbox("Auto Farm Options")
-    AutoFarmGroupbox:CreateButton("Farm", function() print("Auto Farming started!") end)
     AutoFarmGroupbox:CreateToggle("Baby Farm", function(isActive)
         if isActive then
             print("Baby Farm ativado!")
