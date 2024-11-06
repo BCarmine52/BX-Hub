@@ -21,7 +21,7 @@ function BXHub:CreateWindow(title)
     local titleLabel = Instance.new("TextLabel")
     titleLabel.Size = UDim2.new(1, 0, 0, 25)
     titleLabel.Text = title
-    titleLabel.Font = Enum.Font.Bold
+    titleLabel.Font = Enum.Font.GothamBold -- Fonte em negrito válida
     titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
     titleLabel.BackgroundTransparency = 1
     titleLabel.TextScaled = true
@@ -43,7 +43,7 @@ function BXHub:initialize(player)
     minimizeButton.Size = UDim2.new(0, 50, 0, 50)
     minimizeButton.Position = UDim2.new(1, -50, 0, 0)
     minimizeButton.Text = "BX"
-    minimizeButton.Font = Enum.Font.Bold
+    minimizeButton.Font = Enum.Font.GothamBold
     minimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     minimizeButton.BackgroundTransparency = 0.5
     minimizeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
@@ -79,7 +79,7 @@ function BXHub:initialize(player)
         tabButton.Text = tab.Name
         tabButton.Size = UDim2.new(0.5, 0, 0, 25)
         tabButton.Position = UDim2.new(0.5 * (_ - 1), 0, 0, 25)
-        tabButton.Font = Enum.Font.Bold
+        tabButton.Font = Enum.Font.GothamBold
         tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
         tabButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
         tabButton.BackgroundTransparency = 0.5
@@ -102,7 +102,7 @@ function BXHub:initialize(player)
         button.Text = text
         button.Size = UDim2.new(0, 100, 0, 25)
         button.Position = position
-        button.Font = Enum.Font.Bold
+        button.Font = Enum.Font.GothamBold
         button.TextColor3 = Color3.fromRGB(255, 255, 255)
         button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
         button.BackgroundTransparency = 0.5
