@@ -253,42 +253,6 @@ function Library:CreateWindow(title)
                 end)
             end
 
-            function Groupbox:CreateToggleButton(text, callback)
-                local ToggleButtonFrame = Instance.new("Frame")
-                ToggleButtonFrame.Parent = ScrollingFrame
-                ToggleButtonFrame.Size = UDim2.new(1, -10, 0, 25)
-                ToggleButtonFrame.BackgroundTransparency = 1
-
-                local ToggleButtonLabel = Instance.new("TextLabel")
-                ToggleButtonLabel.Parent = ToggleButtonFrame
-                ToggleButtonLabel.Text = text
-                ToggleButtonLabel.Size = UDim2.new(0.8, 0, 1, 0)
-                ToggleButtonLabel.BackgroundTransparency = 1
-                ToggleButtonLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-                ToggleButtonLabel.Font = Enum.Font.Gotham
-                ToggleButtonLabel.TextSize = 14
-                ToggleButtonLabel.TextXAlignment = Enum.TextXAlignment.Left
-
-                local Toggle = Instance.new("TextButton")
-                Toggle.Parent = ToggleButtonFrame
-                Toggle.Size = UDim2.new(0.15, 0, 0.8, 0)
-                Toggle.Position = UDim2.new(0.85, 0, 0.1, 0)
-                Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-                Toggle.Text = ""
-                Toggle.BorderSizePixel = 0
-
-                local ToggleCorner = Instance.new("UICorner")
-                ToggleCorner.CornerRadius = UDim.new(0, 5)
-                ToggleCorner.Parent = Toggle
-
-                local isToggled = false
-                Toggle.MouseButton1Click:Connect(function()
-                    isToggled = not isToggled
-                    callback(isToggled)
-                    Toggle.BackgroundColor3 = isToggled and Color3.fromRGB(50, 150, 50) or Color3.fromRGB(30, 30, 30)
-                end)
-            end
-
             return Groupbox
         end
 
@@ -297,29 +261,25 @@ function Library:CreateWindow(title)
 
     -- Criando Tabs e Botões
 
-    -- Tab Auto Farm
+    -- Tab Auto Farm (com botões "Save Config" e "Unload")
     local AutoFarmTab = Window:CreateTab("Auto Farm")
     local AutoFarmGroupbox = AutoFarmTab:CreateGroupbox("Auto Farm Options")
     AutoFarmGroupbox:CreateButton("Farm", function() print("Auto Farming started!") end)
-    AutoFarmGroupbox:CreateToggleButton("Baby Farm", function(isActive)
+    AutoFarmGroupbox:CreateToggle("Baby Farm", function(isActive)
         if isActive then
             print("Baby Farm ativado!")
         else
             print("Baby Farm desativado!")
         end
     end)
+    AutoFarmGroupbox:CreateButton("Save Config", function() print("Configuration saved!") end)
+    AutoFarmGroupbox:CreateButton("Unload", function() Window:Unload() end)
 
     -- Tab Shop
     local ShopTab = Window:CreateTab("Shop")
     local ShopGroupbox = ShopTab:CreateGroupbox("Shop Options")
     ShopGroupbox:CreateButton("Open Shop", function() print("Shop opened!") end)
     ShopGroupbox:CreateToggle("Enable Item Buy", function(state) print("Item Buy toggled: " .. tostring(state)) end)
-
-    -- Tab Config
-    local ConfigTab = Window:CreateTab("Config")
-    local ConfigGroupbox = ConfigTab:CreateGroupbox("Configuration Options")
-    ConfigGroupbox:CreateButton("Save Config", function() print("Configuration saved!") end)
-    ConfigGroupbox:CreateButton("Unload", function() Window:Unload() end)
 
     return Window
 end
