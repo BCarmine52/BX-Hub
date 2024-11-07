@@ -213,6 +213,23 @@ function Library:CreateWindow(title)
             UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
             UIListLayout.Padding = UDim.new(0, 5)
 
+            function Groupbox:CreateButton(text, callback)
+                local Button = Instance.new("TextButton")
+                Button.Parent = ScrollingFrame
+                Button.Text = text
+                Button.Size = UDim2.new(1, -10, 0, 25)
+                Button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+                Button.Font = Enum.Font.Gotham
+                Button.TextSize = 14
+                Button.BorderSizePixel = 0
+                Button.MouseButton1Click:Connect(callback)
+
+                local ButtonCorner = Instance.new("UICorner")
+                ButtonCorner.CornerRadius = UDim.new(0, 5)
+                ButtonCorner.Parent = Button
+            end
+
             function Groupbox:CreateToggleButton(text, callback)
                 local ToggleButtonFrame = Instance.new("Frame")
                 ToggleButtonFrame.Parent = ScrollingFrame
@@ -276,6 +293,9 @@ function Library:CreateWindow(title)
     -- Tab Auto Farm
     local AutoFarmTab = Window:CreateTab("Auto Farm")
     local AutoFarmGroupbox = AutoFarmTab:CreateGroupbox("Auto Farm Options")
+
+    -- Botão Farm
+    AutoFarmGroupbox:CreateButton("Farm", function() print("Auto Farming started!") end)
 
     -- Botão Baby Farm
     AutoFarmGroupbox:CreateToggleButton("Baby Farm", function(isActive)
