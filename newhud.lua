@@ -6,7 +6,19 @@
     problem with other people using it, please just make sure you message me and ask me before using.
 ]]
 
--- [CONTINUAÇÃO DO CÓDIGO ORIGINAL]
+-- / Locals
+local Workspace = game:GetService("Workspace")
+local Player = game:GetService("Players").LocalPlayer
+local Mouse = Player:GetMouse()
+
+-- / Services
+local UserInputService = game:GetService("UserInputService")
+local TextService = game:GetService("TextService")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")  -- Definindo RunService corretamente
+local CoreGuiService = game:GetService("CoreGui")
+local ContentService = game:GetService("ContentProvider")
+local TeleportService = game:GetService("TeleportService")
 
 local library = {
     version = "2.0.2",
@@ -37,4 +49,3 @@ function library:Init(key)
 end
 
 -- [RESTANTE DO CÓDIGO ORIGINAL]
-
