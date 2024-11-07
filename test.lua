@@ -253,7 +253,7 @@ library.themes = {
     }
 }
 
-local blacklistedKeys = {
+--local blacklistedKeys (Removido) = {
     Enum.KeyCode.Unknown,
     Enum.KeyCode.W,
     Enum.KeyCode.A,
@@ -264,7 +264,7 @@ local blacklistedKeys = {
     Enum.KeyCode.Escape
 }
 
-local whitelistedBoxKeys = {
+--local whitelistedBoxKeys (Removido) = {
     Enum.KeyCode.Zero,
     Enum.KeyCode.One,
     Enum.KeyCode.Two,
@@ -277,7 +277,7 @@ local whitelistedBoxKeys = {
     Enum.KeyCode.Nine
 }
 
-local keyNames = {
+--local keyNames (Removido) = {
     [Enum.KeyCode.LeftControl] = 'LCTRL';
     [Enum.KeyCode.RightControl] = 'RCTRL';
     [Enum.KeyCode.LeftShift] = 'LSHIFT';
@@ -632,7 +632,7 @@ function library:init()
                         option:SetState(value == nil and false or (value == 1 and true or false));
                     elseif option.class == 'slider' then
                         option:SetValue(value == nil and 0 or value)
-                    elseif option.class == 'bind' then
+                    elseif option.class == '--bind (Removido)' then
                         option:SetBind(value == nil and 'none' or (utility:HasProperty(Enum.KeyCode, value) and Enum.KeyCode[value] or Enum.UserInputType[value]));
                     elseif option.class == 'color' then
                         option:SetColor(value == nil and c3new(1,1,1) or c3new(value[1], value[2], value[3]));
@@ -667,8 +667,8 @@ function library:init()
                     cfg[flag] = option.state and 1 or 0;
                 elseif option.class == 'slider' then
                     cfg[flag] = option.value;
-                elseif option.class == 'bind' then
-                    cfg[flag] = option.bind.Name;
+                elseif option.class == '--bind (Removido)' then
+                    cfg[flag] = option.--bind (Removido).Name;
                 elseif option.class == 'color' then
                     cfg[flag] = {
                         option.color.r,
@@ -839,7 +839,7 @@ function library:init()
                 unpack(Enum.PlayerActions:GetEnumItems())
             )
         else
-            actionservice:UnbindAction('FreezeMovement');
+            actionservice:Un--bind (Removido)Action('FreezeMovement');
         end
 
         updateCursor();
@@ -2223,7 +2223,7 @@ function library:init()
                         for i,option in next, self.options do
                             option.objects.holder.Visible = option.enabled
                             if option.enabled then
-                                if option.class == 'color' or option.class == 'bind' then
+                                if option.class == 'color' or option.class == '--bind (Removido)' then
                                     option.objects.holder.Position = newUDim2(1,-option.objects.holder.Object.Size.X-x,0,0);
                                     x = x + option.objects.holder.Object.Size.X;
                                 elseif option.class == 'slider' or option.class == 'list' then
@@ -2382,55 +2382,55 @@ function library:init()
                         return color
                     end
 
-                    function toggle:AddBind(data)
-                        local bind = {
-                            class = 'bind';
+                    function toggle:--AddBind (Removido)(data)
+                        local --bind (Removido) = {
+                            class = '--bind (Removido)';
                             flag = data.flag;
                             text = '';
                             tooltip = '';
-                            bind = 'none';
+                            --bind (Removido) = 'none';
                             mode = 'toggle';
                             order = #self.options+1;
                             callback = function() end;
-                            keycallback = function() end;
+                            --keycallback (Removido) = function() end;
                             indicatorValue = library.keyIndicator:AddValue({value = 'value', key = 'key', enabled = false});
                             noindicator = false;
                             invertindicator = false;
                             state = false;
                             nomouse = false;
                             enabled = true;
-                            binding = false;
+                            --bind (Removido)ing = false;
                             objects = {};
                         };
     
                         local blacklist = {'objects'};
                         for i,v in next, data do
-                            if not table.find(blacklist, i) and bind[i] ~= nil then
-                                bind[i] = v
+                            if not table.find(blacklist, i) and --bind (Removido)[i] ~= nil then
+                                --bind (Removido)[i] = v
                             end
                         end
                         
-                        table.insert(self.options, bind)
+                        table.insert(self.options, --bind (Removido))
     
-                        if bind.flag then
-                            library.options[bind.flag] = bind;
+                        if --bind (Removido).flag then
+                            library.options[--bind (Removido).flag] = --bind (Removido);
                         end
 
-                        if bind.bind == 'none' then
-                            bind.state = true
-                            if bind.flag then
-                                library.flags[bind.flag] = bind.state;
+                        if --bind (Removido).--bind (Removido) == 'none' then
+                            --bind (Removido).state = true
+                            if --bind (Removido).flag then
+                                library.flags[--bind (Removido).flag] = --bind (Removido).state;
                             end
-                            bind.callback(true)
-                            local display = bind.state; if bind.invertindicator then display = not bind.state; end
-                            bind.indicatorValue:SetEnabled(display and not bind.noindicator);
-                            bind.indicatorValue:SetKey((bind.text == nil or bind.text == '') and (bind.flag == nil and 'unknown' or bind.flag) or bind.text); -- this is so dumb
-                            bind.indicatorValue:SetValue('[Always]');
+                            --bind (Removido).callback(true)
+                            local display = --bind (Removido).state; if --bind (Removido).invertindicator then display = not --bind (Removido).state; end
+                            --bind (Removido).indicatorValue:SetEnabled(display and not --bind (Removido).noindicator);
+                            --bind (Removido).indicatorValue:SetKey((--bind (Removido).text == nil or --bind (Removido).text == '') and (--bind (Removido).flag == nil and 'unknown' or --bind (Removido).flag) or --bind (Removido).text); -- this is so dumb
+                            --bind (Removido).indicatorValue:SetValue('[Always]');
                         end
     
                         --- Create Objects ---
                         do
-                            local objs = bind.objects;
+                            local objs = --bind (Removido).objects;
                             local z = library.zindexOrder.window+25;
     
                             objs.holder = utility:Draw('Square', {
@@ -2453,13 +2453,13 @@ function library:init()
                             end)
     
                             utility:Connection(objs.holder.MouseLeave, function()
-                                objs.keyText.ThemeColor = bind.binding and 'Accent' or 'Option Text 3';
+                                objs.keyText.ThemeColor = --bind (Removido).--bind (Removido)ing and 'Accent' or 'Option Text 3';
                             end)
     
                             utility:Connection(objs.holder.MouseButton1Down, function()
-                                if not bind.binding then
-                                    bind:SetKeyText('...');
-                                    bind.binding = true;
+                                if not --bind (Removido).--bind (Removido)ing then
+                                    --bind (Removido):SetKeyText('...');
+                                    --bind (Removido).--bind (Removido)ing = true;
                                 end
                             end)
     
@@ -2467,48 +2467,48 @@ function library:init()
                         ----------------------
     
                         local c
-                        function bind:SetBind(keybind)
+                        function --bind (Removido):SetBind(key--bind (Removido))
                             if c then
                                 c:Disconnect();
-                                if bind.flag then
-                                    library.flags[bind.flag] = false;
+                                if --bind (Removido).flag then
+                                    library.flags[--bind (Removido).flag] = false;
                                 end
-                                bind.callback(false);
+                                --bind (Removido).callback(false);
                             end
                             local keyName = 'NONE'
-                            self.bind = (keybind and keybind) or keybind or self.bind
-                            if self.bind == Enum.KeyCode.Backspace then
-                                self.bind = 'none';
+                            self.--bind (Removido) = (key--bind (Removido) and key--bind (Removido)) or key--bind (Removido) or self.--bind (Removido)
+                            if self.--bind (Removido) == Enum.KeyCode.Backspace then
+                                self.--bind (Removido) = 'none';
 
-                                if bind.flag then
-                                    library.flags[bind.flag] = bind.state;
+                                if --bind (Removido).flag then
+                                    library.flags[--bind (Removido).flag] = --bind (Removido).state;
                                 end
                                 self.callback(true)
-                                local display = bind.state; if bind.invertindicator then display = not bind.state; end
-                                bind.indicatorValue:SetEnabled(display and not bind.noindicator);
+                                local display = --bind (Removido).state; if --bind (Removido).invertindicator then display = not --bind (Removido).state; end
+                                --bind (Removido).indicatorValue:SetEnabled(display and not --bind (Removido).noindicator);
                             else
-                                keyName = keyNames[keybind] or keybind.Name or keybind
+                                keyName = keyNames[key--bind (Removido)] or key--bind (Removido).Name or key--bind (Removido)
                             end
-                            if self.bind ~= 'none' then
-                                bind.state = false
-                                if bind.flag then
-                                    library.flags[bind.flag] = bind.state;
+                            if self.--bind (Removido) ~= 'none' then
+                                --bind (Removido).state = false
+                                if --bind (Removido).flag then
+                                    library.flags[--bind (Removido).flag] = --bind (Removido).state;
                                 end
                                 self.callback(false)
-                                local display = bind.state; if bind.invertindicator then display = not bind.state; end
-                                bind.indicatorValue:SetEnabled(display and not bind.noindicator);
+                                local display = --bind (Removido).state; if --bind (Removido).invertindicator then display = not --bind (Removido).state; end
+                                --bind (Removido).indicatorValue:SetEnabled(display and not --bind (Removido).noindicator);
                             end
-                            self.keycallback(self.bind);
+                            self.--keycallback (Removido)(self.--bind (Removido));
                             self:SetKeyText(keyName:upper());
                             self.indicatorValue:SetKey((self.text == nil or self.text == '') and (self.flag == nil and 'unknown' or self.flag) or self.text); -- this is so dumb
                             self.indicatorValue:SetValue('['..keyName:upper()..']');
-                            if self.bind == 'none' then
+                            if self.--bind (Removido) == 'none' then
 
                             end
                             self.objects.keyText.ThemeColor = self.objects.holder.Hover and 'Accent' or 'Option Text 3';
                         end
     
-                        function bind:SetKeyText(str)
+                        function --bind (Removido):SetKeyText(str)
                             str = tostring(str);
                             self.objects.keyText.Text = '['..str..']';
                             self.objects.keyText.Position = newUDim2(0, 2, 0, 2);
@@ -2519,32 +2519,32 @@ function library:init()
                         utility:Connection(inputservice.InputBegan, function(inp)
                             if inputservice:GetFocusedTextBox() then
                                 return
-                            elseif bind.binding then
-                                local key = (table.find({Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2, Enum.UserInputType.MouseButton3}, inp.UserInputType) and not bind.nomouse) and inp.UserInputType
-                                bind:SetBind(key or (not table.find(blacklistedKeys, inp.KeyCode)) and inp.KeyCode)
-                                bind.binding = false
-                            elseif not bind.binding and self.bind == 'none' then
-                                bind.state = true
-                                library.flags[bind.flag] = bind.state
-                                local display = bind.state; if bind.invertindicator then display = not bind.state; end
-                                bind.indicatorValue:SetEnabled(display and not bind.noindicator)
-                            elseif (inp.KeyCode == bind.bind or inp.UserInputType == bind.bind) and not bind.binding then
-                                if bind.mode == 'toggle' then
-                                    bind.state = not bind.state
-                                    if bind.flag then
-                                        library.flags[bind.flag] = bind.state;
+                            elseif --bind (Removido).--bind (Removido)ing then
+                                local key = (table.find({Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2, Enum.UserInputType.MouseButton3}, inp.UserInputType) and not --bind (Removido).nomouse) and inp.UserInputType
+                                --bind (Removido):SetBind(key or (not table.find(blacklistedKeys, inp.KeyCode)) and inp.KeyCode)
+                                --bind (Removido).--bind (Removido)ing = false
+                            elseif not --bind (Removido).--bind (Removido)ing and self.--bind (Removido) == 'none' then
+                                --bind (Removido).state = true
+                                library.flags[--bind (Removido).flag] = --bind (Removido).state
+                                local display = --bind (Removido).state; if --bind (Removido).invertindicator then display = not --bind (Removido).state; end
+                                --bind (Removido).indicatorValue:SetEnabled(display and not --bind (Removido).noindicator)
+                            elseif (inp.KeyCode == --bind (Removido).--bind (Removido) or inp.UserInputType == --bind (Removido).--bind (Removido)) and not --bind (Removido).--bind (Removido)ing then
+                                if --bind (Removido).mode == 'toggle' then
+                                    --bind (Removido).state = not --bind (Removido).state
+                                    if --bind (Removido).flag then
+                                        library.flags[--bind (Removido).flag] = --bind (Removido).state;
                                     end
-                                    bind.callback(bind.state)
-                                    local display = bind.state; if bind.invertindicator then display = not bind.state; end
-                                    bind.indicatorValue:SetEnabled(display and not bind.noindicator);
-                                elseif bind.mode == 'hold' then
-                                    if bind.flag then
-                                        library.flags[bind.flag] = true;
+                                    --bind (Removido).callback(--bind (Removido).state)
+                                    local display = --bind (Removido).state; if --bind (Removido).invertindicator then display = not --bind (Removido).state; end
+                                    --bind (Removido).indicatorValue:SetEnabled(display and not --bind (Removido).noindicator);
+                                elseif --bind (Removido).mode == 'hold' then
+                                    if --bind (Removido).flag then
+                                        library.flags[--bind (Removido).flag] = true;
                                     end
-                                    bind.indicatorValue:SetEnabled((not bind.invertindicator and true or false) and not bind.noindicator);
+                                    --bind (Removido).indicatorValue:SetEnabled((not --bind (Removido).invertindicator and true or false) and not --bind (Removido).noindicator);
                                     c = utility:Connection(runservice.RenderStepped, function()
-                                        if bind.callback then
-                                            bind.callback(true);
+                                        if --bind (Removido).callback then
+                                            --bind (Removido).callback(true);
                                         end
                                     end)
                                 end
@@ -2552,26 +2552,26 @@ function library:init()
                         end)
     
                         utility:Connection(inputservice.InputEnded, function(inp)
-                            if bind.bind ~= 'none' then
-                                if inp.KeyCode == bind.bind or inp.UserInputType == bind.bind then
+                            if --bind (Removido).--bind (Removido) ~= 'none' then
+                                if inp.KeyCode == --bind (Removido).--bind (Removido) or inp.UserInputType == --bind (Removido).--bind (Removido) then
                                     if c then
                                         c:Disconnect();
-                                        if bind.flag then
-                                            library.flags[bind.flag] = false;
+                                        if --bind (Removido).flag then
+                                            library.flags[--bind (Removido).flag] = false;
                                         end
-                                        if bind.callback then
-                                            bind.callback(false);
+                                        if --bind (Removido).callback then
+                                            --bind (Removido).callback(false);
                                         end
-                                        bind.indicatorValue:SetEnabled(bind.invertindicator and true or false);
+                                        --bind (Removido).indicatorValue:SetEnabled(--bind (Removido).invertindicator and true or false);
                                     end
                                 end
                             end
                         end)
     
-                        tooltip(bind);
-                        bind:SetBind(bind.bind);
+                        tooltip(--bind (Removido));
+                        --bind (Removido):SetBind(--bind (Removido).--bind (Removido));
                         self:UpdateOptions();
-                        return bind
+                        return --bind (Removido)
                     end
 
                     function toggle:AddSlider(data)
@@ -3857,7 +3857,7 @@ function library:init()
                         utility:Connection(objs.holder.MouseButton1Down, function()
                             if box.focused then
                                 box:ReleaseFocus();
-                                actionservice:UnbindAction('FreezeMovement');
+                                actionservice:Un--bind (Removido)Action('FreezeMovement');
                             else
                                 actionservice:BindAction(
                                     'FreezeMovement',
@@ -3975,44 +3975,44 @@ function library:init()
                     return box
                 end
 
-                -- // Keybind
-                function section:AddBind(data)
-                    local bind = {
-                        class = 'bind';
+                -- // Key--bind (Removido)
+                function section:--AddBind (Removido)(data)
+                    local --bind (Removido) = {
+                        class = '--bind (Removido)';
                         flag = data.flag;
                         text = '';
                         tooltip = '';
-                        bind = 'none';
+                        --bind (Removido) = 'none';
                         mode = 'toggle';
                         order = #self.options+1;
                         callback = function() end;
-                        keycallback = function() end;
+                        --keycallback (Removido) = function() end;
                         indicatorValue = library.keyIndicator:AddValue({value = 'value', key = 'key', enabled = false});
                         noindicator = false;
                         state = false;
                         nomouse = false;
                         enabled = true;
-                        binding = false;
+                        --bind (Removido)ing = false;
                         risky = false;
                         objects = {};
                     };
 
                     local blacklist = {'objects'};
                     for i,v in next, data do
-                        if not table.find(blacklist, i) and bind[i] ~= nil then
-                            bind[i] = v
+                        if not table.find(blacklist, i) and --bind (Removido)[i] ~= nil then
+                            --bind (Removido)[i] = v
                         end
                     end
                     
-                    table.insert(self.options, bind)
+                    table.insert(self.options, --bind (Removido))
 
-                    if bind.flag then
-                        library.options[bind.flag] = bind;
+                    if --bind (Removido).flag then
+                        library.options[--bind (Removido).flag] = --bind (Removido);
                     end
 
                     --- Create Objects ---
                     do
-                        local objs = bind.objects;
+                        local objs = --bind (Removido).objects;
                         local z = library.zindexOrder.window+25;
 
                         objs.holder = utility:Draw('Square', {
@@ -4024,7 +4024,7 @@ function library:init()
 
                         objs.text = utility:Draw('Text', {
                             Position = newUDim2(0,2,0,2);
-                            ThemeColor = bind.risky and 'Risky Text' or 'Option Text 2';
+                            ThemeColor = --bind (Removido).risky and 'Risky Text' or 'Option Text 2';
                             Size = 13;
                             Font = 2;
                             ZIndex = z+1;
@@ -4045,13 +4045,13 @@ function library:init()
                         end)
 
                         utility:Connection(objs.holder.MouseLeave, function()
-                            objs.keyText.ThemeColor = bind.binding and 'Accent' or 'Option Text 3';
+                            objs.keyText.ThemeColor = --bind (Removido).--bind (Removido)ing and 'Accent' or 'Option Text 3';
                         end)
 
                         utility:Connection(objs.holder.MouseButton1Down, function()
-                            if not bind.binding then
-                                bind:SetKeyText('...');
-                                bind.binding = true;
+                            if not --bind (Removido).--bind (Removido)ing then
+                                --bind (Removido):SetKeyText('...');
+                                --bind (Removido).--bind (Removido)ing = true;
                             end
                         end)
 
@@ -4060,7 +4060,7 @@ function library:init()
 
                     local c
 
-                    function bind:SetText(str)
+                    function --bind (Removido):SetText(str)
                         if typeof(str) == 'string' then
                             self.text = str;
                             self.objects.text.Text = str;
@@ -4068,29 +4068,29 @@ function library:init()
                         end
                     end
 
-                    function bind:SetBind(keybind)
+                    function --bind (Removido):SetBind(key--bind (Removido))
                         if c then
                             c:Disconnect();
-                            if bind.flag then
-                                library.flags[bind.flag] = false;
+                            if --bind (Removido).flag then
+                                library.flags[--bind (Removido).flag] = false;
                             end
-                            bind.callback(false);
+                            --bind (Removido).callback(false);
                         end
                         local keyName = 'NONE'
-                        self.bind = (keybind and keybind) or keybind or self.bind
-                        if self.bind == Enum.KeyCode.Backspace then
-                            self.bind = 'none';
+                        self.--bind (Removido) = (key--bind (Removido) and key--bind (Removido)) or key--bind (Removido) or self.--bind (Removido)
+                        if self.--bind (Removido) == Enum.KeyCode.Backspace then
+                            self.--bind (Removido) = 'none';
                         else
-                            keyName = keyNames[keybind] or keybind.Name or keybind
+                            keyName = keyNames[key--bind (Removido)] or key--bind (Removido).Name or key--bind (Removido)
                         end
-                        self.keycallback(self.bind);
+                        self.--keycallback (Removido)(self.--bind (Removido));
                         self:SetKeyText(keyName:upper());
                         self.indicatorValue:SetKey((self.text == nil or self.text == '') and (self.flag == nil and 'unknown' or self.flag) or self.text); -- this is so dumb
                         self.indicatorValue:SetValue('['..keyName:upper()..']');
                         self.objects.keyText.ThemeColor = self.objects.holder.Hover and 'Accent' or 'Option Text 3';
                     end
 
-                    function bind:SetKeyText(str)
+                    function --bind (Removido):SetKeyText(str)
                         str = tostring(str);
                         self.objects.keyText.Text = '['..str..']';
                         self.objects.keyText.Position = newUDim2(1,-self.objects.keyText.TextBounds.X, 0, 2);
@@ -4099,53 +4099,53 @@ function library:init()
                     utility:Connection(inputservice.InputBegan, function(inp)
                         if inputservice:GetFocusedTextBox() then
                             return
-                        elseif bind.binding then
-                            local key = (table.find({Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2, Enum.UserInputType.MouseButton3}, inp.UserInputType) and not bind.nomouse) and inp.UserInputType
-                            bind:SetBind(key or (not table.find(blacklistedKeys, inp.KeyCode)) and inp.KeyCode)
-                            bind.binding = false
-                        elseif not bind.binding and self.bind == 'none' then
-                            bind.state = true
-                            library.flags[bind.flag] = bind.state
-                        elseif (inp.KeyCode == bind.bind or inp.UserInputType == bind.bind) and not bind.binding then
-                            if bind.mode == 'toggle' then
-                                bind.state = not bind.state
-                                if bind.flag then
-                                    library.flags[bind.flag] = bind.state;
+                        elseif --bind (Removido).--bind (Removido)ing then
+                            local key = (table.find({Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2, Enum.UserInputType.MouseButton3}, inp.UserInputType) and not --bind (Removido).nomouse) and inp.UserInputType
+                            --bind (Removido):SetBind(key or (not table.find(blacklistedKeys, inp.KeyCode)) and inp.KeyCode)
+                            --bind (Removido).--bind (Removido)ing = false
+                        elseif not --bind (Removido).--bind (Removido)ing and self.--bind (Removido) == 'none' then
+                            --bind (Removido).state = true
+                            library.flags[--bind (Removido).flag] = --bind (Removido).state
+                        elseif (inp.KeyCode == --bind (Removido).--bind (Removido) or inp.UserInputType == --bind (Removido).--bind (Removido)) and not --bind (Removido).--bind (Removido)ing then
+                            if --bind (Removido).mode == 'toggle' then
+                                --bind (Removido).state = not --bind (Removido).state
+                                if --bind (Removido).flag then
+                                    library.flags[--bind (Removido).flag] = --bind (Removido).state;
                                 end
-                                bind.callback(bind.state)
-                                bind.indicatorValue:SetEnabled(bind.state and not bind.noindicator);
-                            elseif bind.mode == 'hold' then
-                                if bind.flag then
-                                    library.flags[bind.flag] = true;
+                                --bind (Removido).callback(--bind (Removido).state)
+                                --bind (Removido).indicatorValue:SetEnabled(--bind (Removido).state and not --bind (Removido).noindicator);
+                            elseif --bind (Removido).mode == 'hold' then
+                                if --bind (Removido).flag then
+                                    library.flags[--bind (Removido).flag] = true;
                                 end
-                                bind.indicatorValue:SetEnabled(true and not bind.noindicator);
+                                --bind (Removido).indicatorValue:SetEnabled(true and not --bind (Removido).noindicator);
                                 c = utility:Connection(runservice.RenderStepped, function()
-                                    bind.callback(true);
+                                    --bind (Removido).callback(true);
                                 end)
                             end
                         end
                     end)
 
                     utility:Connection(inputservice.InputEnded, function(inp)
-                        if bind.bind ~= 'none' then
-                            if inp.KeyCode == bind.bind or inp.UserInputType == bind.key then
+                        if --bind (Removido).--bind (Removido) ~= 'none' then
+                            if inp.KeyCode == --bind (Removido).--bind (Removido) or inp.UserInputType == --bind (Removido).key then
                                 if c then
                                     c:Disconnect();
-                                    if bind.flag then
-                                        library.flags[bind.flag] = false;
+                                    if --bind (Removido).flag then
+                                        library.flags[--bind (Removido).flag] = false;
                                     end
-                                    bind.callback(false);
-                                    bind.indicatorValue:SetEnabled(false);
+                                    --bind (Removido).callback(false);
+                                    --bind (Removido).indicatorValue:SetEnabled(false);
                                 end
                             end
                         end
                     end)
 
-                    tooltip(bind);
-                    bind:SetBind(bind.bind);
-                    bind:SetText(bind.text);
+                    tooltip(--bind (Removido));
+                    --bind (Removido):SetBind(--bind (Removido).--bind (Removido));
+                    --bind (Removido):SetText(--bind (Removido).text);
                     self:UpdateOptions();
-                    return bind
+                    return --bind (Removido)
                 end
 
                 -- // Dropdown
@@ -4684,7 +4684,7 @@ function library:init()
         end
     end)
 
-    self.keyIndicator = self.NewIndicator({title = 'Keybinds', pos = newUDim2(0,15,0,325), enabled = true});
+    self.keyIndicator = self.NewIndicator({title = 'Key--bind (Removido)s', pos = newUDim2(0,15,0,325), enabled = true});
     
     self.targetIndicator = self.NewIndicator({title = 'Target Info', pos = newUDim2(0,15,0,350), enabled = false});
     self.targetName = self.targetIndicator:AddValue({key = 'Name     :', value = 'nil'})
@@ -4739,7 +4739,7 @@ function library:CreateSettingsTab(menu)
 
     refreshConfigs()
 
-    mainSection:AddBind({text = 'Open / Close', flag = 'togglebind', nomouse = true, noindicator = true, bind = Enum.KeyCode.End, callback = function()
+    mainSection:--AddBind (Removido)({text = 'Open / Close', flag = 'toggle--bind (Removido)', nomouse = true, noindicator = true, --bind (Removido) = Enum.KeyCode.End, callback = function()
         library:SetOpen(not library.open)
     end});
 
@@ -4790,14 +4790,14 @@ function library:CreateSettingsTab(menu)
     mainSection:AddSlider({text = 'Custom X', flag = 'watermark_x', suffix = '%', min = 0, max = 100, increment = .1, value = 6});
     mainSection:AddSlider({text = 'Custom Y', flag = 'watermark_y', suffix = '%', min = 0, max = 100, increment = .1, value = 1});
 
-    mainSection:AddToggle({text = 'Keybinds', flag = 'keybind_indicator', state = true, callback = function(bool)
+    mainSection:AddToggle({text = 'Key--bind (Removido)s', flag = 'key--bind (Removido)_indicator', state = true, callback = function(bool)
         library.keyIndicator:SetEnabled(bool);
     end})
-    mainSection:AddSlider({text = 'Position X', flag = 'keybind_indicator_x', min = 0, max = 100, increment = .1, value = .5, callback = function()
-        library.keyIndicator:SetPosition(newUDim2(library.flags.keybind_indicator_x / 100, 0, library.flags.keybind_indicator_y / 100, 0));    
+    mainSection:AddSlider({text = 'Position X', flag = 'key--bind (Removido)_indicator_x', min = 0, max = 100, increment = .1, value = .5, callback = function()
+        library.keyIndicator:SetPosition(newUDim2(library.flags.key--bind (Removido)_indicator_x / 100, 0, library.flags.key--bind (Removido)_indicator_y / 100, 0));    
     end});
-    mainSection:AddSlider({text = 'Position Y', flag = 'keybind_indicator_y', min = 0, max = 100, increment = .1, value = 30, callback = function()
-        library.keyIndicator:SetPosition(newUDim2(library.flags.keybind_indicator_x / 100, 0, library.flags.keybind_indicator_y / 100, 0));    
+    mainSection:AddSlider({text = 'Position Y', flag = 'key--bind (Removido)_indicator_y', min = 0, max = 100, increment = .1, value = 30, callback = function()
+        library.keyIndicator:SetPosition(newUDim2(library.flags.key--bind (Removido)_indicator_x / 100, 0, library.flags.key--bind (Removido)_indicator_y / 100, 0));    
     end});
 
 
