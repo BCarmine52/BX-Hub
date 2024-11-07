@@ -268,20 +268,6 @@ function Library:CreateWindow(title)
                 end)
             end
 
-            function Groupbox:CreateLabel(text)
-                local Label = Instance.new("TextLabel")
-                Label.Parent = ScrollingFrame
-                Label.Text = text
-                Label.Size = UDim2.new(1, -10, 0, 25)
-                Label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-                Label.TextColor3 = Color3.fromRGB(255, 255, 255)
-                Label.Font = Enum.Font.GothamBold
-                Label.TextSize = 14
-                Label.BorderSizePixel = 0
-                Label.BackgroundTransparency = 1
-                Label.TextXAlignment = Enum.TextXAlignment.Left
-            end
-
             return Groupbox
         end
 
@@ -315,8 +301,8 @@ function Library:CreateWindow(title)
         end
     end)
 
-    -- Rótulo Farm Type
-    AutoFarmGroupbox:CreateLabel("Farm Type")
+    -- Botão Farm Type (igual ao Farm)
+    AutoFarmGroupbox:CreateButton("Farm Type", function() print("Farm Type selected!") end)
 
     -- Botão Farm All Pets
     AutoFarmGroupbox:CreateToggleButton("Farm All Pets", function(isActive)
