@@ -230,29 +230,6 @@ function Library:CreateWindow(title)
                 ButtonCorner.Parent = Button
             end
 
-            function Groupbox:CreateToggle(text, callback)
-                local Toggle = Instance.new("TextButton")
-                Toggle.Parent = ScrollingFrame
-                Toggle.Text = text
-                Toggle.Size = UDim2.new(1, -10, 0, 25)
-                Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-                Toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-                Toggle.Font = Enum.Font.Gotham
-                Toggle.TextSize = 14
-                Toggle.BorderSizePixel = 0
-                local isToggled = false
-
-                local ToggleCorner = Instance.new("UICorner")
-                ToggleCorner.CornerRadius = UDim.new(0, 5)
-                ToggleCorner.Parent = Toggle
-
-                Toggle.MouseButton1Click:Connect(function()
-                    isToggled = not isToggled
-                    callback(isToggled)
-                    Toggle.BackgroundColor3 = isToggled and Color3.fromRGB(50, 50, 50) or Color3.fromRGB(30, 30, 30)
-                end)
-            end
-
             function Groupbox:CreateToggleButton(text, callback)
                 local ToggleButtonFrame = Instance.new("Frame")
                 ToggleButtonFrame.Parent = ScrollingFrame
@@ -263,18 +240,18 @@ function Library:CreateWindow(title)
                 ToggleButtonLabel.Parent = ToggleButtonFrame
                 ToggleButtonLabel.Text = text
                 ToggleButtonLabel.Size = UDim2.new(0.8, 0, 1, 0)
-                ToggleButtonLabel.Position = UDim2.new(0.5, -15, 0, 0) -- Centraliza o texto horizontalmente
-                ToggleButtonLabel.AnchorPoint = Vector2.new(0.5, 0) -- Define o ponto de ancoragem do texto para o centro
+                ToggleButtonLabel.Position = UDim2.new(0.5, -15, 0, 0)
+                ToggleButtonLabel.AnchorPoint = Vector2.new(0.5, 0)
                 ToggleButtonLabel.BackgroundTransparency = 1
                 ToggleButtonLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-                ToggleButtonLabel.Font = Enum.Font.GothamBold -- Define o texto como negrito
+                ToggleButtonLabel.Font = Enum.Font.GothamBold
                 ToggleButtonLabel.TextSize = 14
                 ToggleButtonLabel.TextXAlignment = Enum.TextXAlignment.Center
 
                 local Toggle = Instance.new("TextButton")
                 Toggle.Parent = ToggleButtonFrame
-                Toggle.Size = UDim2.new(0, 19, 0, 19) -- Define o tamanho da caixa de ativação para 19x19 pixels
-                Toggle.Position = UDim2.new(0.85, 0, 0.1, 0) -- Mantém a caixa de ativação à direita
+                Toggle.Size = UDim2.new(0, 19, 0, 19)
+                Toggle.Position = UDim2.new(0.85, 0, 0.1, 0)
                 Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
                 Toggle.Text = ""
                 Toggle.BorderSizePixel = 0
@@ -302,12 +279,22 @@ function Library:CreateWindow(title)
     -- Tab Auto Farm
     local AutoFarmTab = Window:CreateTab("Auto Farm")
     local AutoFarmGroupbox = AutoFarmTab:CreateGroupbox("Auto Farm Options")
-    AutoFarmGroupbox:CreateButton("Farm", function() print("Auto Farming started!") end)
+
+    -- Botão Baby Farm
     AutoFarmGroupbox:CreateToggleButton("Baby Farm", function(isActive)
         if isActive then
             print("Baby Farm ativado!")
         else
             print("Baby Farm desativado!")
+        end
+    end)
+
+    -- Botão Pet Farm abaixo do Baby Farm
+    AutoFarmGroupbox:CreateToggleButton("Pet Farm", function(isActive)
+        if isActive then
+            print("Pet Farm ativado!")
+        else
+            print("Pet Farm desativado!")
         end
     end)
 
