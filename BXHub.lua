@@ -337,7 +337,7 @@ function Library:CreateWindow(title)
     ShopGroupbox:CreateButton("Open Shop", function() print("Shop opened!") end)
     ShopGroupbox:CreateToggle("Enable Item Buy", function(state) print("Item Buy toggled: " .. tostring(state)) end)
 
-    -- Tab Config
+    -- Tab Config (igual a Auto Farm, apenas com Save Config e Unload)
     local ConfigTab = Window:CreateTab("Config")
     local ConfigGroupbox = ConfigTab:CreateGroupbox("Configuration Options")
     ConfigGroupbox:CreateButton("Save Config", function() print("Configuration saved!") end)
