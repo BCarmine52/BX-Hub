@@ -182,18 +182,15 @@ function Library:CreateWindow(title)
                 end
             end
             TabButton.BackgroundColor3 = Color3.fromRGB(75, 150, 255)
-        end
-
-        TabButton.MouseButton1Click:Connect(function()
             for _, tab in pairs(TabContainer:GetChildren()) do
                 tab.Visible = false
             end
             TabFrame.Visible = true
-            updateTabSelection()
-        end)
+        end
+
+        TabButton.MouseButton1Click:Connect(updateTabSelection)
 
         if #TabContainer:GetChildren() == 1 then
-            TabFrame.Visible = true
             updateTabSelection()
         end
 
