@@ -182,15 +182,18 @@ function Library:CreateWindow(title)
                 end
             end
             TabButton.BackgroundColor3 = Color3.fromRGB(75, 150, 255)
+        end
+
+        TabButton.MouseButton1Click:Connect(function()
             for _, tab in pairs(TabContainer:GetChildren()) do
                 tab.Visible = false
             end
             TabFrame.Visible = true
-        end
-
-        TabButton.MouseButton1Click:Connect(updateTabSelection)
+            updateTabSelection()
+        end)
 
         if #TabContainer:GetChildren() == 1 then
+            TabFrame.Visible = true
             updateTabSelection()
         end
 
@@ -209,23 +212,6 @@ function Library:CreateWindow(title)
             UIListLayout.Parent = ScrollingFrame
             UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
             UIListLayout.Padding = UDim.new(0, 5)
-
-            function Groupbox:CreateButton(text, callback)
-                local Button = Instance.new("TextButton")
-                Button.Parent = ScrollingFrame
-                Button.Text = text
-                Button.Size = UDim2.new(1, -10, 0, 25)
-                Button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-                Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-                Button.Font = Enum.Font.Gotham
-                Button.TextSize = 14
-                Button.BorderSizePixel = 0
-                Button.MouseButton1Click:Connect(callback)
-
-                local ButtonCorner = Instance.new("UICorner")
-                ButtonCorner.CornerRadius = UDim.new(0, 5)
-                ButtonCorner.Parent = Button
-            end
 
             function Groupbox:CreateToggleButton(text, callback)
                 local ToggleButtonFrame = Instance.new("Frame")
@@ -265,6 +251,20 @@ function Library:CreateWindow(title)
                 end)
             end
 
+            function Groupbox:CreateLabel(text)
+                local Label = Instance.new("TextLabel")
+                Label.Parent = ScrollingFrame
+                Label.Text = text
+                Label.Size = UDim2.new(1, -10, 0, 25)
+                Label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+                Label.Font = Enum.Font.GothamBold
+                Label.TextSize = 14
+                Label.BorderSizePixel = 0
+                Label.BackgroundTransparency = 1
+                Label.TextXAlignment = Enum.TextXAlignment.Left
+            end
+
             return Groupbox
         end
 
@@ -286,12 +286,42 @@ function Library:CreateWindow(title)
         end
     end)
 
-    -- Botão Pet Farm abaixo do Baby Farm
+    -- Botão Pet Farm
     AutoFarmGroupbox:CreateToggleButton("Pet Farm", function(isActive)
         if isActive then
             print("Pet Farm ativado!")
         else
             print("Pet Farm desativado!")
+        end
+    end)
+
+    -- Rótulo Farm Type
+    AutoFarmGroupbox:CreateLabel("Farm Type")
+
+    -- Botão Farm All Pets
+    AutoFarmGroupbox:CreateToggleButton("Farm All Pets", function(isActive)
+        if isActive then
+            print("Farm All Pets ativado!")
+        else
+            print("Farm All Pets desativado!")
+        end
+    end)
+
+    -- Botão Farm Eggs
+    AutoFarmGroupbox:CreateToggleButton("Farm Eggs", function(isActive)
+        if isActive then
+            print("Farm Eggs ativado!")
+        else
+            print("Farm Eggs desativado!")
+        end
+    end)
+
+    -- Botão Farm AgeUp
+    AutoFarmGroupbox:CreateToggleButton("Farm AgeUp", function(isActive)
+        if isActive then
+            print("Farm AgeUp ativado!")
+        else
+            print("Farm AgeUp desativado!")
         end
     end)
 
