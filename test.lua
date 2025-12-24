@@ -46,7 +46,7 @@ getgenv().Config = {
         Settings = {
             AutoShowUI = false, -- Load the UI on script start (main overlay disable for less memory usage)
             ShowOverlay = true, -- Show stats overlay (disables 3D rendering)
-            ReduceGraphics = false, -- Reduce graphics quality to minimum
+            ReduceGraphics = true, -- Reduce graphics quality to minimum
             FPSCap = 3, -- FPS cap option (0 = uncapped)
         },
         AutoPotion = {
